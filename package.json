@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node -- --optional strict --stage 1 -- server/index.js",
-    "client": "nodemon --exec babel-node -- --optional strict --stage 1 -- client/client.js"
+    "start": "nodemon --exec babel-node -- --optional strict --stage 1 -- index.js",
+    "client": "nodemon --exec babel-node -- --optional strict --stage 1 -- client.js"
   },
   "author": "",
   "license": "ISC",

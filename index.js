@@ -79,6 +79,7 @@ console.log('TCT server listening on port 8001')
 tcpServer.on('connection', function(socket) { //This is a standard net.Socket
     console.log('client connected')
     socket = new JsonSocket(socket); //Now we've decorated the net.Socket to be a JsonSocket
+    console.log('ROOT_DIR: ' + ROOT_DIR)
     chokidar.watch(ROOT_DIR, {ignored: /[\/\\]\./})
 /*
         .on('add', function(path) { console.log('File', path, 'has been added'); })
@@ -117,7 +118,7 @@ function setDirDetails(req, res, next) {
 }
 
 function setFileMeta(req, res, next) {
-    req.filePath = path.resolve(path.join(ROOT_DIR, req.url))
+    req.filePath = path.resolve(req.url)
     if (req.filePath.indexOf(ROOT_DIR) !== 0) {
         res.send(400, 'Invalid Path')
         return
@@ -137,7 +138,7 @@ function sendHeaders(req, res, next) {
             return
         }
 
-        res.setHeader('Content-Length', stat.size)
+        res.setHeader('Content-Length', req.stat.size)
         let contentType = mime.contentType(path.extname(req.filePath))
         res.setHeader('Content-Type', contentType)
 

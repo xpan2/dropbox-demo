@@ -9,7 +9,7 @@ let request = require('request')
 const ROOT_DIR = path.resolve(process.cwd())
 const SERVER_DIR = ROOT_DIR + '/server'
 const CLIENT_DIR = ROOT_DIR + '/client'
-const HTTP_SERVER = 'http://127.0.0.1:8080'
+const HTTP_SERVER = 'http://127.0.0.1:8000'
 
 var port = 8001; //The same port that the server is listening on
 var host = '127.0.0.1';
@@ -29,11 +29,9 @@ socket.on('connect', function() { //Don't send until we're connected
                 // send get request to the http server to get the file and write to the current dir
                 let url = HTTP_SERVER + p
                 console.log('url = ' + url)
-/*
-                let fileName =
+                let fileName = path.relative(ROOT_DIR, p)
+                console.log('fileName = ' + fileName);
                 request(url).pipe(fs.createWriteStream(fileName))
-*/
-                //fs.createWriteStream(p)
                 break;
             case 'addDir':
                 // add new dir
