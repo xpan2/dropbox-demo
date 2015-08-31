@@ -21,29 +21,29 @@ socket.on('connect', function() { //Don't send until we're connected
         console.log(payload)
         let action = payload.action
         let p = payload.path
+        let fileName = 'client/' + path.relative(ROOT_DIR, p);
+        console.log('fileName = ' + fileName);
         switch (action) {
             case 'add':
                 // add new file
                 // send get request to the http server to get the file and write to the current dir
                 let url = HTTP_SERVER + p
-                let fileName = 'client/' + path.relative(ROOT_DIR, p)
-                console.log('fileName = ' + fileName);
                 request(url).pipe(fs.createWriteStream(fileName))
                 break;
             case 'addDir':
                 // add new dir
-                var dirName = 'client/' + path.relative(ROOT_DIR, p)
-                console.log('dirName = ' + dirName);
-                mkdirp(dirName)
+                mkdirp(fileName)
                 break;
             case 'change':
                 // update an existing file
                 break;
             case 'unlink':
                 // delete an existing file
+                fs.unlink(fileName)
                 break;
             case 'unlinkDir':
                 // delete a dir
+                fs.rmdir(fileName)
                 break;
         }
     });
