@@ -21,6 +21,7 @@
     "nssocket": "^0.5.3",
     "request": "^2.61.0",
     "rimraf": "^2.4.3",
-    "songbird": "^1.0.1"
+    "songbird": "^1.0.1",
+    "yargs": "^3.23.0"
   }
 }

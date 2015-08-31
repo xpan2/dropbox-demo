@@ -9,13 +9,14 @@ let mkdirp = require('mkdirp')
 let net = require('net')
 let JsonSocket = require('json-socket')
 let chokidar = require('chokidar')
+let argv = require('yargs').argv // --dir='/Users/xpan2/dev/node_training/week1/dropbox-demo/server2'
 
 require('songbird')
 
 const NODE_ENV = process.env.NODE_ENV
 const PORT = process.env.PORT || 8000
 const TCP_PORT = 8001
-const ROOT_DIR = path.resolve(process.cwd()) + '/server'
+const ROOT_DIR = argv.dir || path.resolve(process.cwd()) + '/server'
 
 let app = express()
 

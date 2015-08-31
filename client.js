@@ -5,10 +5,11 @@ let path = require('path')
 let rimraf = require('rimraf')
 let mkdirp = require('mkdirp')
 let request = require('request')
+let argv = require('yargs').argv
 
 require('songbird')
 
-const ROOT_DIR = path.resolve(process.cwd()) + '/server'
+const ROOT_DIR = argv.dir || path.resolve(process.cwd()) + '/server'
 const HTTP_SERVER = 'http://127.0.0.1:8000'
 
 var port = 8001; //The same port that the server is listening on
