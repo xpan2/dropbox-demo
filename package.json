@@ -1,0 +1,26 @@
+{
+  "name": "dropbox-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node -- --optional strict --stage 1 -- server/index.js",
+    "client": "nodemon --exec babel-node -- --optional strict --stage 1 -- client/client.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^2.9.34",
+    "bluebird-nodeify": "^1.0.0",
+    "chokidar": "^1.0.5",
+    "express": "^4.13.3",
+    "json-socket": "^0.1.2",
+    "mime-types": "^2.1.5",
+    "mkdirp": "^0.5.1",
+    "morgan": "^1.6.1",
+    "nssocket": "^0.5.3",
+    "request": "^2.61.0",
+    "rimraf": "^2.4.3",
+    "songbird": "^1.0.1"
+  }
+}
