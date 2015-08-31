@@ -93,11 +93,13 @@ tcpServer.on('connection', function(socket) { //This is a standard net.Socket
             socket.sendMessage(generatePayload(event, path))
         })
 
+/*
     socket.on('message', function (message) {
         console.log('server on message')
         console.log(message)
         socket.sendMessage('payload')
     })
+*/
 })
 
 function generatePayload(event, path) {
