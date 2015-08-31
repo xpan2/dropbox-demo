@@ -6,9 +6,7 @@ let rimraf = require('rimraf')
 let mkdirp = require('mkdirp')
 let request = require('request')
 
-const ROOT_DIR = path.resolve(process.cwd())
-const SERVER_DIR = ROOT_DIR + '/server'
-const CLIENT_DIR = ROOT_DIR + '/client'
+const ROOT_DIR = path.resolve(process.cwd()) + '/server'
 const HTTP_SERVER = 'http://127.0.0.1:8000'
 
 var port = 8001; //The same port that the server is listening on
@@ -28,15 +26,13 @@ socket.on('connect', function() { //Don't send until we're connected
                 // add new file
                 // send get request to the http server to get the file and write to the current dir
                 let url = HTTP_SERVER + p
-                console.log('url = ' + url)
-                let fileName = path.relative(ROOT_DIR, p)
+                let fileName = 'client/' + path.relative(ROOT_DIR, p)
                 console.log('fileName = ' + fileName);
                 request(url).pipe(fs.createWriteStream(fileName))
                 break;
             case 'addDir':
                 // add new dir
-                console.log('server added dir')
-                var dirName = 'client/' + path.basename(p)
+                var dirName = 'client/' + path.relative(ROOT_DIR, p)
                 console.log('dirName = ' + dirName);
                 mkdirp(dirName)
                 break;
