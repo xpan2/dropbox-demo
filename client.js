@@ -6,19 +6,28 @@ let rimraf = require('rimraf')
 let mkdirp = require('mkdirp')
 let request = require('request')
 let argv = require('yargs').argv
+var tar = require('tar')
 
 require('songbird')
 
 const ROOT_DIR = argv.dir || path.resolve(process.cwd()) + '/server'
-const HTTP_SERVER = 'http://127.0.0.1:8000'
+const HTTP_SERVER = 'http://127.0.0.1:8000/'
 
 var port = 8001; //The same port that the server is listening on
 var host = '127.0.0.1';
 var socket = new JsonSocket(new net.Socket()); //Decorate a standard net.Socket with JsonSocket
 socket.connect(port, host);
 socket.on('connect', function() { //Don't send until we're connected
-    // TODO: initially need to download all content from the server directory as tar file
-//    socket.sendMessage('request download file');
+    async ()=> {
+        await rimraf.promise(path.resolve(process.cwd()) + '/client/source')
+
+        let options = {
+            url: HTTP_SERVER,
+            headers: {'Accept': 'application/x-gtar'}
+        }
+        let extract = tar.Extract({path: ROOT_DIR})
+        request(options, HTTP_SERVER).pipe(extract)
+    }()
 
     socket.on('message', function(payload) {
         console.log(payload)

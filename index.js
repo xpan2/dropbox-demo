@@ -9,6 +9,7 @@ let mkdirp = require('mkdirp')
 let net = require('net')
 let JsonSocket = require('json-socket')
 let chokidar = require('chokidar')
+let archiver = require('archiver')
 let argv = require('yargs').argv // --dir='/Users/xpan2/dev/node_training/week1/dropbox-demo/server2'
 
 require('songbird')
@@ -26,12 +27,24 @@ if (NODE_ENV === 'development') {
 
 app.listen(PORT, ()=> console.log(`LISTENING @ http://127.0.0.1:${PORT}`))
 
-app.get('*', setFileMeta, sendHeaders, (req, res) => {
+app.get('*', setFileMeta, (req, res) => {
+/*
     if (res.body) {
         res.json(res.body)
         return
     }
+*/
+    if (req.url.charAt(req.url.length - 1) === '/') { // directory
+        let archive = archiver('tar')
+        archive.pipe(res);
+        archive.bulk([
+            { expand: true, cwd: ROOT_DIR, src: ['**'], dest: 'source'}
+        ])
+        archive.finalize()
+        return
+    }
 
+    sendHeaders(req, res)
     fs.createReadStream(req.filePath).pipe(res)
 })
 
@@ -93,14 +106,6 @@ tcpServer.on('connection', function(socket) { //This is a standard net.Socket
             console.log(event, path)
             socket.sendMessage(generatePayload(event, path))
         })
-
-/*
-    socket.on('message', function (message) {
-        console.log('server on message')
-        console.log(message)
-        socket.sendMessage('payload')
-    })
-*/
 })
 
 function generatePayload(event, path) {
@@ -122,10 +127,12 @@ function setDirDetails(req, res, next) {
 
 function setFileMeta(req, res, next) {
     req.filePath = path.resolve(req.url)
+/*
     if (req.filePath.indexOf(ROOT_DIR) !== 0) {
         res.send(400, 'Invalid Path')
         return
     }
+*/
     fs.promise.stat(req.filePath)
         .then(stat => req.stat = stat, () => req.stat = null)
         .nodeify(next)

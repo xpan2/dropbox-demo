@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "archiver": "^0.15.0",
     "bluebird": "^2.9.34",
     "bluebird-nodeify": "^1.0.0",
     "chokidar": "^1.0.5",
@@ -22,6 +23,7 @@
     "request": "^2.61.0",
     "rimraf": "^2.4.3",
     "songbird": "^1.0.1",
+    "tar": "^2.2.0",
     "yargs": "^3.23.0"
   }
 }
